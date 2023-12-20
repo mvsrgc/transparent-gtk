@@ -3,11 +3,8 @@ import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Gtk, Adw
+from gi.repository import Gtk, Gdk, Adw
 import time
-
-# Dictionary to store processed notifications
-processed_notifications = {}
 
 # Define the function to handle notifications
 def notifications(bus, message):
@@ -18,12 +15,9 @@ def notifications(bus, message):
 
     if summary == "LINUX SUCKS" and urgency == 1:
         # Check if this notification ID has already been processed
-        if notification_id not in processed_notifications:
-            # Display the full-screen alert
-            win = FullScreenAlert(app)
-            win.present()
-            # Add the notification ID to the processed list
-            processed_notifications[notification_id] = True
+        # Display the full-screen alert
+        win = FullScreenAlert(app)
+        win.present()
 
 # Initialize the D-Bus loop
 DBusGMainLoop(set_as_default=True)
